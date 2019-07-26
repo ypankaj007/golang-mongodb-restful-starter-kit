@@ -32,7 +32,7 @@ func (h *AuthHadler) Create(w http.ResponseWriter, r *http.Request) {
 	err := h.au.Create(r.Context(), requestUser)
 	result := make(map[string]interface{})
 	if err != nil {
-		result = httphandler.NewHttpError(httphandler.EntityCreationError, http.StatusBadRequest)
+		result = httphandler.NewHTTPError(httphandler.EntityCreationError, http.StatusBadRequest)
 	} else {
 		result["message"] = "Successfully Registered"
 	}
@@ -50,13 +50,13 @@ func (h *AuthHadler) Login(w http.ResponseWriter, r *http.Request) {
 	result = make(map[string]interface{})
 	if err != nil {
 		log.Println(err)
-		result = httphandler.NewHttpError(httphandler.Unauthorized, http.StatusBadRequest)
+		result = httphandler.NewHTTPError(httphandler.Unauthorized, http.StatusBadRequest)
 	} else {
 		j := jwt.JwtToken{C: h.c}
 		result, err = j.CreateToken(user.ID.Hex())
 		if err != nil {
 			log.Println(err)
-			result = httphandler.NewHttpError(httphandler.InternalError, 501)
+			result = httphandler.NewHTTPError(httphandler.InternalError, 501)
 		}
 	}
 	httphandler.Response(w, result)

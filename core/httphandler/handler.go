@@ -23,7 +23,9 @@ func Response(w http.ResponseWriter, payload interface{}) {
 	json.NewEncoder(w).Encode(payload)
 }
 
-func NewHttpError(errorCode string, statusCode int) map[string]interface{} {
+// NewHTTPError creates error model that will send as http response
+// if any error occors
+func NewHTTPError(errorCode string, statusCode int) map[string]interface{} {
 
 	m := make(map[string]interface{})
 	m["error"] = errorCode
@@ -33,16 +35,17 @@ func NewHttpError(errorCode string, statusCode int) map[string]interface{} {
 	return m
 }
 
-// Errors
+// Error codes
 const (
-	InvalidUserID       = "invalidUserID"
-	InternalError       = "internalError"
-	UserNotFound        = "userNotFound"
+	InvalidUserID       = "invalidUserID" // in case userid not exists
+	InternalError       = "internalError" // in case, any internal server error occurs
+	UserNotFound        = "userNotFound"  // if user not found
 	InvalidBindingModel = "invalidBindingModel"
 	EntityCreationError = "entityCreationError"
-	Unauthorized        = "unauthorized"
+	Unauthorized        = "unauthorized" // in case, try to access restricted resource
 )
 
+// Error code with decription
 var errorMessage = map[string]string{
 	"invalidUserID":       "invalid user id",
 	"internalError":       "an internal error occured",

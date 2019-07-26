@@ -18,13 +18,15 @@ type Configuration struct {
 
 // NewConfig will read the config data from given .env file
 func NewConfig(files ...string) *Configuration {
-	err := godotenv.Load(files...)
+	err := godotenv.Load(files...) // Loading config from env file
 
 	if err != nil {
 		log.Printf("No .env file could be found %q\n", files)
 	}
 
 	cfg := Configuration{}
+
+	// Parse env to configuration
 	err = env.Parse(&cfg)
 	if err != nil {
 		fmt.Printf("%+v\n", err)

@@ -22,7 +22,7 @@ func (h *UserHadler) Get(w http.ResponseWriter, r *http.Request) {
 	user, err := h.us.Get(r.Context(), utility.GetLoggedInUserId(r))
 
 	if err != nil {
-		httphandler.Response(w, httphandler.NewHttpError(httphandler.InternalError, 500))
+		httphandler.Response(w, httphandler.NewHTTPError(httphandler.InternalError, 500))
 	} else {
 		httphandler.Response(w, user)
 	}
