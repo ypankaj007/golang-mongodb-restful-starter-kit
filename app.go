@@ -51,6 +51,7 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 	}
 
+	log.Println("Application is running at ", c.Address)
 	log.Fatal(srv.ListenAndServe())
 
 }
