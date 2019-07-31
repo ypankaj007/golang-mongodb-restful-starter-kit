@@ -11,6 +11,7 @@ type User struct {
 	Email    string        `json:"email" bson:"email"`
 	Password string        `json:"password" bson:"password"`
 	Salt     string        `json:"salt" bson:"salt"`
+	Role     string        `json:"role" bson:"role"`
 	IsActive bool          `json:"isActive" bson:"isActive"`
 }
 

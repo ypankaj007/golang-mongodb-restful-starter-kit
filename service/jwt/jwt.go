@@ -21,17 +21,19 @@ type JwtToken struct {
 // When jwt token will decrypt, token model will returns
 // Need this model to authenticate and validate resources access by loggedIn user
 type Token struct {
-	ID string `json:"id"` // User id
+	ID   string `json:"id"`   // User id
+	Role string `json:"role"` // user role
 	jwt.StandardClaims
 }
 
 // CreateToken : takes userId as parameter,
 // generates JWT token and
 // Return JWT token string
-func (jt *JwtToken) CreateToken(id string) (interface{}, error) {
+func (jt *JwtToken) CreateToken(id, role string) (interface{}, error) {
 
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), &Token{
-		ID: id,
+		ID:   id,
+		Role: role,
 	})
 	// token -> string. Only server knows this secret (foobar).
 	tokenString, err := token.SignedString([]byte(jt.C.JwtSecret))
@@ -68,6 +70,7 @@ func (jt *JwtToken) ProtectedEndpoint(h http.Handler) http.Handler {
 			} else {
 				// Set userId in context, so that we can access it over the request
 				context.Set(r, "userId", t.ID)
+				context.Set(r, "role", t.Role)
 				// Redirest call to original http handler
 				h.ServeHTTP(w, r)
 			}

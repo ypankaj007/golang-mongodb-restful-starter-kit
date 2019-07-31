@@ -7,6 +7,7 @@ import (
 	"go-restapis/model"
 	"go-restapis/service/auth"
 	"go-restapis/service/jwt"
+	"go-restapis/utility"
 	"log"
 	"net/http"
 )
@@ -23,12 +24,14 @@ func NewAuthHandler(au auth.AuthService, c *config.Configuration) *AuthHadler {
 
 }
 
+// Create
 func (h *AuthHadler) Create(w http.ResponseWriter, r *http.Request) {
 	requestUser := new(model.User)
 	defer r.Body.Close()
 	decoder := json.NewDecoder(r.Body)
 	decoder.Decode(&requestUser)
 	requestUser.SetSaltedPassword(requestUser.Password)
+	requestUser.Role = utility.UserRole
 	err := h.au.Create(r.Context(), requestUser)
 	result := make(map[string]interface{})
 	if err != nil {
@@ -53,7 +56,7 @@ func (h *AuthHadler) Login(w http.ResponseWriter, r *http.Request) {
 		result = httphandler.NewHTTPError(httphandler.Unauthorized, http.StatusBadRequest)
 	} else {
 		j := jwt.JwtToken{C: h.c}
-		result, err = j.CreateToken(user.ID.Hex())
+		result, err = j.CreateToken(user.ID.Hex(), user.Role)
 		if err != nil {
 			log.Println(err)
 			result = httphandler.NewHTTPError(httphandler.InternalError, 501)
