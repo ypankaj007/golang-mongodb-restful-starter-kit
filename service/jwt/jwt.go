@@ -68,9 +68,11 @@ func (jt *JwtToken) ProtectedEndpoint(h http.Handler) http.Handler {
 			if !token.Valid || err != nil {
 				httphandler.Response(w, httphandler.NewHTTPError(httphandler.Unauthorized, http.StatusUnauthorized))
 			} else {
-				// Set userId in context, so that we can access it over the request
-				context.Set(r, "userId", t.ID)
-				context.Set(r, "role", t.Role)
+
+				// Set userId and in context, so that we can access it over the request
+				// is some request, we need loggedIn user information
+				context.Set(r, "userId", t.ID) // set loggedIn user id in context
+				context.Set(r, "role", t.Role) // set loggedIn user role in context
 				// Redirest call to original http handler
 				h.ServeHTTP(w, r)
 			}
