@@ -3,9 +3,9 @@ package auth
 import (
 	"context"
 
-	"go-restapis/model"
+	"golang-mongodb-restful-starter-kit/model"
 
-	repository "go-restapis/repository/user"
+	repository "golang-mongodb-restful-starter-kit/repository/user"
 
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

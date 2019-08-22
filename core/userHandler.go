@@ -1,9 +1,9 @@
 package core
 
 import (
-	"go-restapis/core/httphandler"
-	"go-restapis/service/user"
-	"go-restapis/utility"
+	"golang-mongodb-restful-starter-kit/core/httphandler"
+	"golang-mongodb-restful-starter-kit/service/user"
+	"golang-mongodb-restful-starter-kit/utility"
 	"net/http"
 )
 

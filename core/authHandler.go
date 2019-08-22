@@ -2,12 +2,12 @@ package core
 
 import (
 	"encoding/json"
-	"go-restapis/config"
-	"go-restapis/core/httphandler"
-	"go-restapis/model"
-	"go-restapis/service/auth"
-	"go-restapis/service/jwt"
-	"go-restapis/utility"
+	"golang-mongodb-restful-starter-kit/config"
+	"golang-mongodb-restful-starter-kit/core/httphandler"
+	"golang-mongodb-restful-starter-kit/model"
+	"golang-mongodb-restful-starter-kit/service/auth"
+	"golang-mongodb-restful-starter-kit/service/jwt"
+	"golang-mongodb-restful-starter-kit/utility"
 	"log"
 	"net/http"
 )

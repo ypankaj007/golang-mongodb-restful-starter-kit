@@ -1,7 +1,7 @@
 package store
 
 import (
-	"go-restapis/config"
+	"golang-mongodb-restful-starter-kit/config"
 	"sync"
 	"sync/atomic"
 

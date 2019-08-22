@@ -1,17 +1,17 @@
 package main
 
 import (
-	"go-restapis/config"
-	"go-restapis/core"
-	"go-restapis/core/httphandler"
+	"golang-mongodb-restful-starter-kit/config"
+	"golang-mongodb-restful-starter-kit/core"
+	"golang-mongodb-restful-starter-kit/core/httphandler"
+	"golang-mongodb-restful-starter-kit/service/auth"
+	"golang-mongodb-restful-starter-kit/service/jwt"
+	"golang-mongodb-restful-starter-kit/service/user"
+	"golang-mongodb-restful-starter-kit/store"
+
 	"log"
 	"net/http"
 	"time"
-
-	"go-restapis/service/auth"
-	"go-restapis/service/jwt"
-	"go-restapis/service/user"
-	"go-restapis/store"
 
 	"github.com/gorilla/mux"
 )

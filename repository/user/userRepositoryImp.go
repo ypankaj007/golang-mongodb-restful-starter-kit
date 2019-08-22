@@ -3,8 +3,8 @@ package user
 import (
 	"context"
 
-	"go-restapis/config"
-	"go-restapis/model"
+	"golang-mongodb-restful-starter-kit/config"
+	"golang-mongodb-restful-starter-kit/model"
 
 	mgo "gopkg.in/mgo.v2"
 )

@@ -2,7 +2,7 @@ package auth
 
 import (
 	"context"
-	"go-restapis/model"
+	"golang-mongodb-restful-starter-kit/model"
 )
 
 type AuthService interface {

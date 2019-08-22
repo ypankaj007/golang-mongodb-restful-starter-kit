@@ -1,15 +1,15 @@
 package jwt
 
 import (
-	"go-restapis/config"
-	"go-restapis/core/httphandler"
+	"golang-mongodb-restful-starter-kit/config"
+	"golang-mongodb-restful-starter-kit/core/httphandler"
 	"log"
 	"net/http"
 	"strings"
 
 	"github.com/gorilla/context"
 
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 )
 
 // JwtToken , basic jwt model
