@@ -7,7 +7,6 @@ import (
 	"golang-mongodb-restful-starter-kit/model"
 	"golang-mongodb-restful-starter-kit/service/auth"
 	"golang-mongodb-restful-starter-kit/service/jwt"
-	"golang-mongodb-restful-starter-kit/utility"
 	"log"
 	"net/http"
 )
@@ -30,10 +29,9 @@ func (h *AuthHadler) Create(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	decoder := json.NewDecoder(r.Body)
 	decoder.Decode(&requestUser)
-	requestUser.SetSaltedPassword(requestUser.Password)
-	requestUser.Role = utility.UserRole
-	err := h.au.Create(r.Context(), requestUser)
+	requestUser.Initialize()
 	result := make(map[string]interface{})
+	err := h.au.Create(r.Context(), requestUser)
 	if err != nil {
 		result = httphandler.NewHTTPError(httphandler.EntityCreationError, http.StatusBadRequest)
 	} else {

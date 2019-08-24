@@ -24,8 +24,8 @@ func main() {
 	// Make connection with db and get instance
 	db := store.GetInstance(c)
 
-	userService := user.New(db)
-	authService := auth.New(db)
+	userService := user.New(db, c)
+	authService := auth.New(db, c)
 
 	userHandler := core.NewUserHandler(userService)
 	authHandler := core.NewAuthHandler(authService, c)

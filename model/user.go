@@ -1,18 +1,22 @@
 package model
 
 import (
+	"golang-mongodb-restful-starter-kit/utility"
+
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type User struct {
-	ID       bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Email    string        `json:"email" bson:"email"`
-	Password string        `json:"password" bson:"password"`
-	Salt     string        `json:"salt" bson:"salt"`
-	Role     string        `json:"role" bson:"role"`
-	IsActive bool          `json:"isActive" bson:"isActive"`
+	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Email     string        `json:"email" bson:"email"`
+	Password  string        `json:"password" bson:"password"`
+	Salt      string        `json:"salt" bson:"salt"`
+	Role      string        `json:"role" bson:"role"`
+	IsActive  bool          `json:"isActive" bson:"isActive"`
+	CreatedAT int64         `json:"createdAt" bson:"createdAt"`
+	UpdatedAT int64         `json:"updatedAt" bson:"updatedAt"`
 }
 
 type Credential struct {
@@ -37,9 +41,9 @@ func (u *User) ComparePassword(password string) error {
 	return err
 }
 
-func (u *User) SetSaltedPassword(password string) error {
+func (u *User) Initialize() error {
 	salt := uuid.New().String()
-	passwordBytes := []byte(password + salt)
+	passwordBytes := []byte(u.Password + salt)
 	hash, err := bcrypt.GenerateFromPassword(passwordBytes, bcrypt.DefaultCost)
 	if err != nil {
 		return err
@@ -47,6 +51,8 @@ func (u *User) SetSaltedPassword(password string) error {
 
 	u.Password = string(hash[:])
 	u.Salt = salt
-
+	u.CreatedAT = utility.CurrentTimeInMilli()
+	u.UpdatedAT = utility.CurrentTimeInMilli()
+	u.Role = utility.UserRole
 	return nil
 }

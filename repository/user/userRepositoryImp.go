@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"fmt"
 
 	"golang-mongodb-restful-starter-kit/config"
 	"golang-mongodb-restful-starter-kit/model"
@@ -14,8 +15,8 @@ type UserRepositoryImp struct {
 	config *config.Configuration
 }
 
-func New(db *mgo.Session) UserRepository {
-	return &UserRepositoryImp{db: db}
+func New(db *mgo.Session, c *config.Configuration) UserRepository {
+	return &UserRepositoryImp{db: db, config: c}
 }
 
 func (service *UserRepositoryImp) Create(ctx context.Context, user *model.User) error {
@@ -45,5 +46,8 @@ func (service *UserRepositoryImp) FindOne(ctx context.Context, query interface{}
 }
 
 func (service *UserRepositoryImp) collection() *mgo.Collection {
-	return service.db.DB("go-restapis").C("user")
+	fmt.Println(" GG ")
+	fmt.Println(service.config)
+	fmt.Println(" GG ")
+	return service.db.DB(service.config.DataBaseName).C("users")
 }

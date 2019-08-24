@@ -3,6 +3,7 @@ package auth
 import (
 	"context"
 
+	"golang-mongodb-restful-starter-kit/config"
 	"golang-mongodb-restful-starter-kit/model"
 
 	repository "golang-mongodb-restful-starter-kit/repository/user"
@@ -14,10 +15,11 @@ import (
 type AuthServiceImp struct {
 	db         *mgo.Session
 	repository repository.UserRepository
+	config     *config.Configuration
 }
 
-func New(db *mgo.Session) AuthService {
-	return &AuthServiceImp{db: db, repository: repository.New(db)}
+func New(db *mgo.Session, c *config.Configuration) AuthService {
+	return &AuthServiceImp{db: db, config: c, repository: repository.New(db, c)}
 }
 
 func (service *AuthServiceImp) Create(ctx context.Context, user *model.User) error {
