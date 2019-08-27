@@ -8,6 +8,7 @@ import (
 	"golang-mongodb-restful-starter-kit/model"
 
 	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type UserRepositoryImp struct {
@@ -43,6 +44,14 @@ func (service *UserRepositoryImp) FindOne(ctx context.Context, query interface{}
 	var user model.User
 	e := service.collection().Find(query).One(&user)
 	return &user, e
+}
+
+func (service *UserRepositoryImp) IsUserAlreadyExists(ctx context.Context, id string) bool {
+	query := bson.M{"_id": bson.ObjectIdHex(id)}
+	if u, _ := service.FindOne(ctx, query); u == nil {
+		return false
+	}
+	return true
 }
 
 func (service *UserRepositoryImp) collection() *mgo.Collection {

@@ -27,6 +27,10 @@ func (service *UserServiceImp) Update(ctx context.Context, user *model.User) err
 	return nil
 }
 
+func (service *UserServiceImp) IsUserAlreadyExists(ctx context.Context, id string) bool {
+	return service.repository.IsUserAlreadyExists(ctx, id)
+}
+
 func (service *UserServiceImp) Get(ctx context.Context, id string) (*model.User, error) {
 	log.Println(ctx.Value("userId"))
 	query := bson.M{"_id": bson.ObjectIdHex(id)}

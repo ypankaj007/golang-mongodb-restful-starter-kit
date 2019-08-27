@@ -2,6 +2,7 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"golang-mongodb-restful-starter-kit/config"
 	"golang-mongodb-restful-starter-kit/core/httphandler"
 	"golang-mongodb-restful-starter-kit/model"
@@ -29,13 +30,18 @@ func (h *AuthHadler) Create(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	decoder := json.NewDecoder(r.Body)
 	decoder.Decode(&requestUser)
-	requestUser.Initialize()
 	result := make(map[string]interface{})
-	err := h.au.Create(r.Context(), requestUser)
-	if err != nil {
-		result = httphandler.NewHTTPError(httphandler.EntityCreationError, http.StatusBadRequest)
+	if validateError := requestUser.Validate(); validateError != nil {
+		fmt.Println(validateError)
+		result = httphandler.NewHTTPCustomError(httphandler.BadRequest, validateError.Error(), http.StatusBadRequest)
 	} else {
-		result["message"] = "Successfully Registered"
+		requestUser.Initialize()
+		err := h.au.Create(r.Context(), requestUser)
+		if err != nil {
+			result = httphandler.NewHTTPError(httphandler.EntityCreationError, http.StatusBadRequest)
+		} else {
+			result["message"] = "Successfully Registered"
+		}
 	}
 	httphandler.Response(w, result)
 }

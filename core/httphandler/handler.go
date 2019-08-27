@@ -35,6 +35,18 @@ func NewHTTPError(errorCode string, statusCode int) map[string]interface{} {
 	return m
 }
 
+// NewHTTPCustomError creates error model that will send as http response
+// if any error occors
+func NewHTTPCustomError(errorCode, errorMsg string, statusCode int) map[string]interface{} {
+
+	m := make(map[string]interface{})
+	m["error"] = errorCode
+	m["error_description"] = errorMsg
+	m["code"] = statusCode
+
+	return m
+}
+
 // Error codes
 const (
 	InvalidUserID       = "invalidUserID" // in case userid not exists
@@ -43,6 +55,7 @@ const (
 	InvalidBindingModel = "invalidBindingModel"
 	EntityCreationError = "entityCreationError"
 	Unauthorized        = "unauthorized" // in case, try to access restricted resource
+	BadRequest          = "badRequest"
 )
 
 // Error code with decription

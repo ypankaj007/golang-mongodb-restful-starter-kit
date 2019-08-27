@@ -34,4 +34,6 @@ type UserRepository interface {
 	// Query object is an interface type that can accept any object
 	// return matched user and error if any
 	FindOne(context.Context, interface{}) (*model.User, error)
+
+	IsUserAlreadyExists(context.Context, string) bool
 }
