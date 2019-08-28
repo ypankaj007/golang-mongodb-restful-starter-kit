@@ -40,3 +40,13 @@ func (service *AuthServiceImp) Login(ctx context.Context, credential *model.Cred
 	return user, nil
 
 }
+
+// IsUserAlreadyExists , checks if user already exists in DB
+func (service *AuthServiceImp) IsUserAlreadyExists(ctx context.Context, email string) bool {
+	query := bson.M{"email": email}
+
+	if result, _ := service.repository.FindOne(ctx, query); result == nil {
+		return false
+	}
+	return true
+}

@@ -2,13 +2,11 @@ package user
 
 import (
 	"context"
-	"fmt"
 
 	"golang-mongodb-restful-starter-kit/config"
 	"golang-mongodb-restful-starter-kit/model"
 
 	mgo "gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
 type UserRepositoryImp struct {
@@ -46,17 +44,6 @@ func (service *UserRepositoryImp) FindOne(ctx context.Context, query interface{}
 	return &user, e
 }
 
-func (service *UserRepositoryImp) IsUserAlreadyExists(ctx context.Context, id string) bool {
-	query := bson.M{"_id": bson.ObjectIdHex(id)}
-	if u, _ := service.FindOne(ctx, query); u == nil {
-		return false
-	}
-	return true
-}
-
 func (service *UserRepositoryImp) collection() *mgo.Collection {
-	fmt.Println(" GG ")
-	fmt.Println(service.config)
-	fmt.Println(" GG ")
 	return service.db.DB(service.config.DataBaseName).C("users")
 }

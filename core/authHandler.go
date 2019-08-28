@@ -34,14 +34,22 @@ func (h *AuthHadler) Create(w http.ResponseWriter, r *http.Request) {
 	if validateError := requestUser.Validate(); validateError != nil {
 		fmt.Println(validateError)
 		result = httphandler.NewHTTPCustomError(httphandler.BadRequest, validateError.Error(), http.StatusBadRequest)
+		httphandler.Response(w, result)
+		return
+	}
+
+	requestUser.Initialize()
+
+	if h.au.IsUserAlreadyExists(r.Context(), requestUser.Email) {
+		result = httphandler.NewHTTPError(httphandle.IsUserAlreadyExists, http.StatusBadRequest)
+		httphandler.Response(w, result)
+		return
+	}
+	err := h.au.Create(r.Context(), requestUser)
+	if err != nil {
+		result = httphandler.NewHTTPError(httphandler.EntityCreationError, http.StatusBadRequest)
 	} else {
-		requestUser.Initialize()
-		err := h.au.Create(r.Context(), requestUser)
-		if err != nil {
-			result = httphandler.NewHTTPError(httphandler.EntityCreationError, http.StatusBadRequest)
-		} else {
-			result["message"] = "Successfully Registered"
-		}
+		result["message"] = "Successfully Registered"
 	}
 	httphandler.Response(w, result)
 }

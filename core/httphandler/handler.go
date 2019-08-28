@@ -56,6 +56,7 @@ const (
 	EntityCreationError = "entityCreationError"
 	Unauthorized        = "unauthorized" // in case, try to access restricted resource
 	BadRequest          = "badRequest"
+	UserAlreadyExists   = "userAlreadyExists"
 )
 
 // Error code with decription
@@ -66,4 +67,5 @@ var errorMessage = map[string]string{
 	"invalidBindingModel": "model could not be bound",
 	"entityCreationError": "could not create entity",
 	"unauthorized":        "an unauthorized access",
+	"userAlreadyExists":   "User already exists",
 }
