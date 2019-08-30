@@ -41,7 +41,7 @@ func (h *AuthHadler) Create(w http.ResponseWriter, r *http.Request) {
 	requestUser.Initialize()
 
 	if h.au.IsUserAlreadyExists(r.Context(), requestUser.Email) {
-		result = httphandler.NewHTTPError(httphandle.IsUserAlreadyExists, http.StatusBadRequest)
+		result = httphandler.NewHTTPError(httphandler.UserAlreadyExists, http.StatusBadRequest)
 		httphandler.Response(w, result)
 		return
 	}
