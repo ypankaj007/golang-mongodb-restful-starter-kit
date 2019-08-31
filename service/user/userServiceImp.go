@@ -34,16 +34,6 @@ func (service *UserServiceImp) Update(ctx context.Context, user *model.User) err
 	return nil
 }
 
-// IsUserAlreadyExists , checks if user already exists in DB
-func (service *UserServiceImp) IsUserAlreadyExists(ctx context.Context, email string) bool {
-	query := bson.M{"email": email}
-
-	if result, _ := service.repository.FindOne(ctx, query); result == nil {
-		return false
-	}
-	return true
-}
-
 // Get function will find user by id
 // return user and error if any
 func (service *UserServiceImp) Get(ctx context.Context, id string) (*model.User, error) {

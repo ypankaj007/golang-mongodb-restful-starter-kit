@@ -2,7 +2,7 @@ package jwt
 
 import (
 	"golang-mongodb-restful-starter-kit/config"
-	"golang-mongodb-restful-starter-kit/core/httphandler"
+	"golang-mongodb-restful-starter-kit/utility"
 	"log"
 	"net/http"
 	"strings"
@@ -66,7 +66,7 @@ func (jt *JwtToken) ProtectedEndpoint(h http.Handler) http.Handler {
 				return []byte(jt.C.JwtSecret), nil
 			})
 			if !token.Valid || err != nil {
-				httphandler.Response(w, httphandler.NewHTTPError(httphandler.Unauthorized, http.StatusUnauthorized))
+				utility.Response(w, utility.NewHTTPError(utility.Unauthorized, http.StatusUnauthorized))
 			} else {
 
 				// Set userId and in context, so that we can access it over the request

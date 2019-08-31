@@ -8,5 +8,4 @@ import (
 type UserService interface {
 	Update(context.Context, *model.User) error
 	Get(context.Context, string) (*model.User, error)
-	IsUserAlreadyExists(context.Context, string) bool
 }
