@@ -29,7 +29,7 @@ type Token struct {
 // CreateToken : takes userId as parameter,
 // generates JWT token and
 // Return JWT token string
-func (jt *JwtToken) CreateToken(id, role string) (interface{}, error) {
+func (jt *JwtToken) CreateToken(id, role string) (map[string]string, error) {
 
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), &Token{
 		ID:   id,

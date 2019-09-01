@@ -67,18 +67,23 @@ func (h *AuthHadler) Login(w http.ResponseWriter, r *http.Request) {
 	decoder.Decode(&credentials)
 
 	user, err := h.au.Login(r.Context(), credentials)
-	var result interface{}
-	result = make(map[string]interface{})
-	if err != nil {
+	result := make(map[string]interface{})
+	if err != nil || user == nil {
 		log.Println(err)
 		result = utility.NewHTTPError(utility.Unauthorized, http.StatusBadRequest)
-	} else {
-		j := jwt.JwtToken{C: h.c}
-		result, err = j.CreateToken(user.ID.Hex(), user.Role)
-		if err != nil {
-			log.Println(err)
-			result = utility.NewHTTPError(utility.InternalError, 501)
-		}
+		utility.Response(w, result)
+		return
 	}
+	j := jwt.JwtToken{C: h.c}
+	tokenMap, err := j.CreateToken(user.ID.Hex(), user.Role)
+	if err != nil {
+		log.Println(err)
+		result = utility.NewHTTPError(utility.InternalError, 501)
+		utility.Response(w, result)
+		return
+	}
+
+	result["token"] = tokenMap["token"]
+	result["user"] = user
 	utility.Response(w, result)
 }

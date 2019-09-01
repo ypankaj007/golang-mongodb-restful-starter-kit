@@ -10,15 +10,15 @@ import (
 
 // User , definds user model
 type User struct {
-	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Name      string        `json:"name" bson:"name"`
-	Email     string        `json:"email" bson:"email"`
-	Password  string        `json:"password" bson:"password"`
-	Salt      string        `json:"salt" bson:"salt"`
-	Role      string        `json:"role" bson:"role"`
-	IsActive  bool          `json:"isActive" bson:"isActive"`
-	CreatedAT int64         `json:"createdAt" bson:"createdAt"`
-	UpdatedAT int64         `json:"updatedAt" bson:"updatedAt"`
+	ID        bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
+	Name      string        `json:"name,omitempty" bson:"name,omitempty"`
+	Email     string        `json:"email,omitempty" bson:"email,omitempty"`
+	Password  string        `json:"password,omitempty" bson:"password,omitempty"`
+	Salt      string        `json:"salt,omitempty" bson:"salt,omitempty"`
+	Role      string        `json:"role,omitempty" bson:"role,omitempty"`
+	IsActive  bool          `json:"isActive,omitempty" bson:"isActive,omitempty"`
+	CreatedAT int64         `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
+	UpdatedAT int64         `json:"updatedAt,omitempty" bson:"updatedAt,omitempty"`
 }
 
 // Credential , definds login credential model

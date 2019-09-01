@@ -7,6 +7,7 @@ import (
 	"golang-mongodb-restful-starter-kit/model"
 
 	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type UserRepositoryImp struct {
@@ -31,7 +32,10 @@ func (service *UserRepositoryImp) Update(ctx context.Context, user *model.User) 
 }
 
 func (service *UserRepositoryImp) FindOneById(ctx context.Context, id string) (*model.User, error) {
-	return nil, nil
+	var user model.User
+	query := bson.M{"_id": bson.ObjectIdHex(id)}
+	e := service.collection().Find(query).Select(bson.M{"password": 0, "salt": 0}).One(&user)
+	return &user, e
 }
 
 func (service *UserRepositoryImp) Delete(ctx context.Context, user *model.User) error {
@@ -42,6 +46,16 @@ func (service *UserRepositoryImp) FindOne(ctx context.Context, query interface{}
 	var user model.User
 	e := service.collection().Find(query).One(&user)
 	return &user, e
+}
+
+// IsUserAlreadyExists , checks if user already exists in DB
+func (service *UserRepositoryImp) IsUserAlreadyExists(ctx context.Context, email string) bool {
+	query := bson.M{"email": email}
+	_, e := service.FindOne(ctx, query)
+	if e != nil {
+		return false
+	}
+	return true
 }
 
 func (service *UserRepositoryImp) collection() *mgo.Collection {

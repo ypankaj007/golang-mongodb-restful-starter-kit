@@ -9,7 +9,6 @@ import (
 	repository "golang-mongodb-restful-starter-kit/repository/user"
 
 	mgo "gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
 // UserServiceImp , implements UserService
@@ -37,6 +36,5 @@ func (service *UserServiceImp) Update(ctx context.Context, user *model.User) err
 // Get function will find user by id
 // return user and error if any
 func (service *UserServiceImp) Get(ctx context.Context, id string) (*model.User, error) {
-	query := bson.M{"_id": bson.ObjectIdHex(id)}
-	return service.repository.FindOne(ctx, query)
+	return service.repository.FindOneById(ctx, id)
 }

@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	mgo "gopkg.in/mgo.v2"
 )
 
 func main() {
@@ -23,7 +24,7 @@ func main() {
 
 	// Make connection with db and get instance
 	db := store.GetInstance(c)
-
+	db.SetSafe(&mgo.Safe{})
 	userService := user.New(db, c)
 	authService := auth.New(db, c)
 

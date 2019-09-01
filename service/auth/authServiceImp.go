@@ -30,23 +30,24 @@ func (service *AuthServiceImp) Create(ctx context.Context, user *model.User) err
 func (service *AuthServiceImp) Login(ctx context.Context, credential *model.Credential) (*model.User, error) {
 	query := bson.M{"email": credential.Email}
 	user, err := service.repository.FindOne(ctx, query)
-	if err != nil || user == nil {
+	if err != nil {
 		return nil, err
 	}
 
 	if err = user.ComparePassword(credential.Password); err != nil {
 		return nil, err
 	}
+
+	user.Password = ""
+	user.Salt = ""
+
 	return user, nil
 
 }
 
 // IsUserAlreadyExists , checks if user already exists in DB
 func (service *AuthServiceImp) IsUserAlreadyExists(ctx context.Context, email string) bool {
-	query := bson.M{"email": email}
 
-	if result, _ := service.repository.FindOne(ctx, query); result == nil {
-		return false
-	}
-	return true
+	return service.repository.IsUserAlreadyExists(ctx, email)
+
 }
