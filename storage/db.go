@@ -1,4 +1,4 @@
-package store
+package storage
 
 import (
 	"golang-mongodb-restful-starter-kit/config"

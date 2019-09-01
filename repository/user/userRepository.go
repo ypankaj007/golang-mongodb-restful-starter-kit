@@ -24,7 +24,7 @@ type UserRepository interface {
 
 	// Update, will update user data by id
 	// return error if any
-	Update(context.Context, *model.User) error
+	Update(context.Context, interface{}, interface{}) error
 
 	// Delete, will remove user entry from DB
 	// Return error if any

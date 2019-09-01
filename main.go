@@ -6,7 +6,7 @@ import (
 	"golang-mongodb-restful-starter-kit/service/auth"
 	"golang-mongodb-restful-starter-kit/service/jwt"
 	"golang-mongodb-restful-starter-kit/service/user"
-	"golang-mongodb-restful-starter-kit/store"
+	"golang-mongodb-restful-starter-kit/storage"
 	"golang-mongodb-restful-starter-kit/utility"
 
 	"log"
@@ -23,7 +23,7 @@ func main() {
 	c := config.NewConfig()
 
 	// Make connection with db and get instance
-	db := store.GetInstance(c)
+	db := storage.GetInstance(c)
 	db.SetSafe(&mgo.Safe{})
 	userService := user.New(db, c)
 	authService := auth.New(db, c)

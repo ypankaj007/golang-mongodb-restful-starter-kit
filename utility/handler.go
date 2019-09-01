@@ -22,3 +22,10 @@ func Response(w http.ResponseWriter, payload interface{}) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(payload)
 }
+
+func ReadBody(r *http.Request, data interface{}) (interface{}, error) {
+	defer r.Body.Close()
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&data)
+	return data, err
+}

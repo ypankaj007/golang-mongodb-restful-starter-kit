@@ -27,6 +27,12 @@ type Credential struct {
 	Password string `json:"password"`
 }
 
+// UserUpdate , definds user update model
+type UserUpdate struct {
+	Name     string `json:"name,omitempty" bson:"name,omitempty"`
+	IsActive bool   `json:"isActive,omitempty" bson:"isActive,omitempty"`
+}
+
 // func UserIndex() mgo.Index {
 // 	return mgo.Index{
 // 		Key:        []string{"email"},
@@ -61,6 +67,7 @@ func (u *User) Initialize() error {
 	u.Salt = salt
 	u.CreatedAT = utility.CurrentTimeInMilli()
 	u.UpdatedAT = utility.CurrentTimeInMilli()
+	u.IsActive = true
 	u.Role = utility.UserRole
 	return nil
 }

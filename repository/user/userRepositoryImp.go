@@ -27,8 +27,9 @@ func (service *UserRepositoryImp) FindAll(ctx context.Context) ([]*model.User, e
 	return nil, nil
 }
 
-func (service *UserRepositoryImp) Update(ctx context.Context, user *model.User) error {
-	return nil
+func (service *UserRepositoryImp) Update(ctx context.Context, query, change interface{}) error {
+
+	return service.collection().Update(query, change)
 }
 
 func (service *UserRepositoryImp) FindOneById(ctx context.Context, id string) (*model.User, error) {

@@ -6,6 +6,6 @@ import (
 )
 
 type UserService interface {
-	Update(context.Context, *model.User) error
+	Update(context.Context, string, *model.UserUpdate) error
 	Get(context.Context, string) (*model.User, error)
 }
