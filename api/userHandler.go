@@ -26,7 +26,7 @@ func UserRouter(us user.UserService, router *mux.Router) {
 }
 
 func (h *UserHadler) Get(w http.ResponseWriter, r *http.Request) {
-	user, err := h.us.Get(r.Context(), utility.GetLoggedInUserId(r))
+	user, err := h.us.Get(r.Context(), utility.GetLoggedInUserID(r))
 
 	if err != nil {
 		utility.Response(w, utility.NewHTTPError(utility.InternalError, 500))
@@ -41,7 +41,7 @@ func (h *UserHadler) Update(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	decoder.Decode(&updaateUser)
 	result := make(map[string]interface{})
-	err := h.us.Update(r.Context(), utility.GetLoggedInUserId(r), updaateUser)
+	err := h.us.Update(r.Context(), utility.GetLoggedInUserID(r), updaateUser)
 	if err != nil {
 		result = utility.NewHTTPCustomError(utility.BadRequest, err.Error(), http.StatusBadRequest)
 		utility.Response(w, result)
