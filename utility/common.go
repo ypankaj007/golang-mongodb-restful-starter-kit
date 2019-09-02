@@ -40,6 +40,7 @@ type CustomBson struct{}
 // like $set, $push, $addToSet
 // It is very usefull to convert struct in bson
 type BsonWrapper struct {
+	//
 	Set      interface{} `json:"$set,omitempty" bson:"$set,omitempty"`
 	Unset    interface{} `json:"$unset,omitempty" bson:"$unset,omitempty"`
 	Push     interface{} `json:"$push,omitempty" bson:"$push,omitempty"`
