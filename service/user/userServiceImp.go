@@ -33,7 +33,8 @@ func New(db *mgo.Session, c *config.Configuration) UserService {
 // return error if any
 func (service *UserServiceImp) Update(ctx context.Context, id string, user *model.UserUpdate) error {
 	query := bson.M{"_id": bson.ObjectIdHex(id), "isActive": true}
-	change, err := utility.SetDataToBson(user)
+	CustomBson := &utility.CustomBson{}
+	change, err := CustomBson.Set(user)
 	if err != nil {
 		return err
 	}
