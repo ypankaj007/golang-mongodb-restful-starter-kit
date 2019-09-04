@@ -1,12 +1,12 @@
-package api
+package handlers
 
 import (
 	"encoding/json"
 	"fmt"
+	model "golang-mongodb-restful-starter-kit/app/models"
+	"golang-mongodb-restful-starter-kit/app/services/auth"
+	"golang-mongodb-restful-starter-kit/app/services/jwt"
 	"golang-mongodb-restful-starter-kit/config"
-	"golang-mongodb-restful-starter-kit/model"
-	"golang-mongodb-restful-starter-kit/service/auth"
-	"golang-mongodb-restful-starter-kit/service/jwt"
 	"golang-mongodb-restful-starter-kit/utility"
 	"log"
 	"net/http"

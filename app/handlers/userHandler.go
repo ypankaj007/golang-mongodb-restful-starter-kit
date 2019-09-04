@@ -1,9 +1,9 @@
-package api
+package handlers
 
 import (
 	"encoding/json"
-	"golang-mongodb-restful-starter-kit/model"
-	"golang-mongodb-restful-starter-kit/service/user"
+	model "golang-mongodb-restful-starter-kit/app/models"
+	"golang-mongodb-restful-starter-kit/app/services/user"
 	"golang-mongodb-restful-starter-kit/utility"
 	"net/http"
 

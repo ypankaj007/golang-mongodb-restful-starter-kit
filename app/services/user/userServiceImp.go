@@ -4,10 +4,10 @@ import (
 	"context"
 	"golang-mongodb-restful-starter-kit/utility"
 
+	model "golang-mongodb-restful-starter-kit/app/models"
 	"golang-mongodb-restful-starter-kit/config"
-	"golang-mongodb-restful-starter-kit/model"
 
-	repository "golang-mongodb-restful-starter-kit/repository/user"
+	repository "golang-mongodb-restful-starter-kit/app/repositories/user"
 
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

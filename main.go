@@ -1,12 +1,12 @@
 package main
 
 import (
-	"golang-mongodb-restful-starter-kit/api"
+	api "golang-mongodb-restful-starter-kit/app/handlers"
+	"golang-mongodb-restful-starter-kit/app/services/auth"
+	"golang-mongodb-restful-starter-kit/app/services/jwt"
+	"golang-mongodb-restful-starter-kit/app/services/user"
 	"golang-mongodb-restful-starter-kit/config"
-	"golang-mongodb-restful-starter-kit/service/auth"
-	"golang-mongodb-restful-starter-kit/service/jwt"
-	"golang-mongodb-restful-starter-kit/service/user"
-	"golang-mongodb-restful-starter-kit/storage"
+	"golang-mongodb-restful-starter-kit/db"
 	"golang-mongodb-restful-starter-kit/utility"
 
 	"log"
@@ -23,18 +23,27 @@ func main() {
 	c := config.NewConfig()
 
 	// Make connection with db and get instance
-	db := storage.GetInstance(c)
-	db.SetSafe(&mgo.Safe{})
-	userService := user.New(db, c)
-	authService := auth.New(db, c)
+	dbSession := db.GetInstance(c)
+
+	//
+	dbSession.SetSafe(&mgo.Safe{})
+
+	// UserService
+	userService := user.New(dbSession, c)
+
+	// AuthService
+	authService := auth.New(dbSession, c)
 
 	// Router
 	router := mux.NewRouter()
 
+	// UserRouter
 	api.UserRouter(userService, router)
+
+	// AuthRouter
 	api.AuthRouter(authService, c, router)
 
-	//
+	// JWT services
 	jwtService := jwt.JwtToken{C: c}
 
 	// Added middleware over all request to authenticate

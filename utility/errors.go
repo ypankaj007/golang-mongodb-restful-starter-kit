@@ -20,15 +20,20 @@ func ValidateRequireAndLengthAndRegex(value string, isRequired bool, minLength, 
 	if isRequired == true && length < 1 {
 		return errors.New(fieldName + " is Required")
 	}
+
+	// Min length check
+	// If params min length value is zero that indecates, there will be no min length check
 	if minLength != 0 && length > 1 && length < minLength {
 		return errors.New(fieldName + " must be min " + strconv.Itoa(minLength))
 	}
 
+	// Max length check
+	// If params max length value is zero that indecates, there will be no max length check
 	if maxLength != 0 && length > 1 && length > maxLength {
 		return errors.New(fieldName + " must be max " + strconv.Itoa(maxLength))
 	}
 
-	if !Re.MatchString(value) {
+	if !Re.MatchString(value) { // Regex check
 		return errors.New("Invalid " + fieldName)
 	}
 

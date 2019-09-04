@@ -1,4 +1,4 @@
-package model
+package models
 
 import (
 	"golang-mongodb-restful-starter-kit/utility"

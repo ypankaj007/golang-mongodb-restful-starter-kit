@@ -2,7 +2,7 @@ package auth
 
 import (
 	"context"
-	"golang-mongodb-restful-starter-kit/model"
+	model "golang-mongodb-restful-starter-kit/app/models"
 )
 
 type AuthService interface {

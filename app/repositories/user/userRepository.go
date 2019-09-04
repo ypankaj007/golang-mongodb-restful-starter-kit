@@ -2,7 +2,7 @@ package user
 
 import (
 	"context"
-	"golang-mongodb-restful-starter-kit/model"
+	model "golang-mongodb-restful-starter-kit/app/models"
 )
 
 // UserRepository , used to perform DB oprations
