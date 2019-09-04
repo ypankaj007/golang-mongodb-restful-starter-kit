@@ -13,8 +13,8 @@ type User struct {
 	ID        bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
 	Name      string        `json:"name,omitempty" bson:"name,omitempty"`
 	Email     string        `json:"email,omitempty" bson:"email,omitempty"`
-	Password  string        `json:"password,omitempty" bson:"password,omitempty"`
-	Salt      string        `json:"salt,omitempty" bson:"salt,omitempty"`
+	Password  string        `json:"-" bson:"password,omitempty"`
+	Salt      string        `json:"-" bson:"salt,omitempty"`
 	Role      string        `json:"role,omitempty" bson:"role,omitempty"`
 	IsActive  bool          `json:"isActive,omitempty" bson:"isActive,omitempty"`
 	CreatedAT int64         `json:"createdAt,omitempty" bson:"createdAt,omitempty"`

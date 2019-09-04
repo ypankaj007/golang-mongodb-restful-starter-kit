@@ -37,10 +37,6 @@ func (service *AuthServiceImp) Login(ctx context.Context, credential *model.Cred
 	if err = user.ComparePassword(credential.Password); err != nil {
 		return nil, err
 	}
-
-	user.Password = ""
-	user.Salt = ""
-
 	return user, nil
 
 }
