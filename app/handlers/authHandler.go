@@ -14,8 +14,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// AuthHandler
-type AuthHadler struct {
+// AuthHandler ..
+type AuthHandler struct {
 	au auth.AuthService
 	c  *config.Configuration
 }
@@ -23,7 +23,7 @@ type AuthHadler struct {
 // AuthRouter
 func AuthRouter(au auth.AuthService, c *config.Configuration, router *mux.Router) {
 
-	authHandler := &AuthHadler{au, c}
+	authHandler := &AuthHandler{au, c}
 	// ------------------------- Auth APIs ------------------------------
 	router.HandleFunc(BaseRoute+"/auth/register", authHandler.Create).Methods(http.MethodPost)
 	router.HandleFunc(BaseRoute+"/auth/login", authHandler.Login).Methods(http.MethodPost)
@@ -31,7 +31,7 @@ func AuthRouter(au auth.AuthService, c *config.Configuration, router *mux.Router
 }
 
 // Create
-func (h *AuthHadler) Create(w http.ResponseWriter, r *http.Request) {
+func (h *AuthHandler) Create(w http.ResponseWriter, r *http.Request) {
 	requestUser := new(model.User)
 	defer r.Body.Close()
 	decoder := json.NewDecoder(r.Body)
@@ -60,7 +60,7 @@ func (h *AuthHadler) Create(w http.ResponseWriter, r *http.Request) {
 	utility.Response(w, result)
 }
 
-func (h *AuthHadler) Login(w http.ResponseWriter, r *http.Request) {
+func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	credentials := new(model.Credential)
 	defer r.Body.Close()
 	decoder := json.NewDecoder(r.Body)
