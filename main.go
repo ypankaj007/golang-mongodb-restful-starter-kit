@@ -2,12 +2,16 @@ package main
 
 import (
 	api "golang-mongodb-restful-starter-kit/app/handlers"
+	"golang-mongodb-restful-starter-kit/app/middleware"
 	"golang-mongodb-restful-starter-kit/app/services/auth"
 	"golang-mongodb-restful-starter-kit/app/services/jwt"
 	"golang-mongodb-restful-starter-kit/app/services/user"
 	"golang-mongodb-restful-starter-kit/config"
 	"golang-mongodb-restful-starter-kit/db"
+	_ "golang-mongodb-restful-starter-kit/docs"
 	"golang-mongodb-restful-starter-kit/utility"
+
+	httpSwagger "github.com/swaggo/http-swagger"
 
 	"log"
 	"net/http"
@@ -17,6 +21,17 @@ import (
 	mgo "gopkg.in/mgo.v2"
 )
 
+// @title Application API
+// @version 1.0
+// @description Auth apis (signup/login) and user apis
+// @contact.name API Support
+// @contact.email ypankaj007@gmail.com
+// @license.name Apache 2.0
+// @host localhost:8080
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+// @BasePath /api/v1
 func main() {
 
 	// Initialize config
@@ -47,7 +62,10 @@ func main() {
 	jwtService := jwt.JwtToken{C: c}
 
 	// Added middleware over all request to authenticate
-	router.Use(jwtService.ProtectedEndpoint)
+	router.Use(middleware.Cors, jwtService.ProtectedEndpoint)
+
+	// Swagger
+	router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 
 	// Server configuration
 	srv := &http.Server{
