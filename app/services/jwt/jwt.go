@@ -55,7 +55,7 @@ func (jt *JwtToken) ProtectedEndpoint(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		log.Println("middleware", r.URL)
-		if strings.Contains(r.URL.Path, "/auth/") {
+		if strings.Contains(r.URL.Path, "/auth/") || strings.Contains(r.URL.Path, "/swagger/") {
 			h.ServeHTTP(w, r)
 		} else {
 			// JWT token from request header

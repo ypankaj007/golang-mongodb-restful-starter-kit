@@ -1,0 +1,166 @@
+basePath: /api/v1
+definitions:
+  handlers.basicResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  handlers.errorRes:
+    properties:
+      code:
+        type: integer
+      error:
+        type: string
+      error_discription:
+        type: string
+    type: object
+  handlers.loginRes:
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+        type: object
+    type: object
+  handlers.signupReq:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  models.Credential:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: integer
+      email:
+        type: string
+      id:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      role:
+        type: string
+      updatedAt:
+        type: integer
+    type: object
+  models.UserUpdate:
+    properties:
+      isActive:
+        type: boolean
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: ypankaj007@gmail.com
+    name: API Support
+  description: Auth apis (signup/login) and user apis
+  license:
+    name: Apache 2.0
+  title: Application API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login user api with email and password
+      parameters:
+      - description: User Data
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/models.Credential'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.errorRes'
+      summary: Login user
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register user api if not exists
+      parameters:
+      - description: User Data
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.signupReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.errorRes'
+      summary: Register user
+      tags:
+      - auth
+  /users:
+    put:
+      consumes:
+      - application/json
+      description: Update user info
+      parameters:
+      - description: User Data
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.errorRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Update user
+      tags:
+      - users
+  /users/me:
+    get:
+      consumes:
+      - application/json
+      description: Get user profile info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.errorRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Profile
+      tags:
+      - users
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
-	model "golang-mongodb-restful-starter-kit/app/models"
+	"golang-mongodb-restful-starter-kit/app/models"
 	"golang-mongodb-restful-starter-kit/app/services/user"
 	"golang-mongodb-restful-starter-kit/utility"
 	"net/http"
@@ -15,7 +15,7 @@ type UserHandler struct {
 	us user.UserService
 }
 
-// UserRouter
+// UserRouter godoc
 func UserRouter(us user.UserService, router *mux.Router) {
 	userHandler := &UserHandler{us}
 
@@ -25,6 +25,16 @@ func UserRouter(us user.UserService, router *mux.Router) {
 
 }
 
+// Get godoc
+// @Summary Get Profile
+// @Description Get user profile info
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.User
+// @Success 200 {object} errorRes
+// @Security ApiKeyAuth
+// @Router /users/me [get]
 func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 	user, err := h.us.Get(r.Context(), utility.GetLoggedInUserID(r))
 
@@ -35,8 +45,19 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Update godoc
+// @Summary Update user
+// @Description Update user info
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Param   payload     body    models.UserUpdate     true        "User Data"
+// @Success 200 {object} basicResponse
+// @Success 200 {object} errorRes
+// @Security ApiKeyAuth
+// @Router /users [put]
 func (h *UserHandler) Update(w http.ResponseWriter, r *http.Request) {
-	updaateUser := new(model.UserUpdate)
+	updaateUser := new(models.UserUpdate)
 	defer r.Body.Close()
 	decoder := json.NewDecoder(r.Body)
 	decoder.Decode(&updaateUser)

@@ -3,7 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	model "golang-mongodb-restful-starter-kit/app/models"
+	"golang-mongodb-restful-starter-kit/app/models"
 	"golang-mongodb-restful-starter-kit/app/services/auth"
 	"golang-mongodb-restful-starter-kit/app/services/jwt"
 	"golang-mongodb-restful-starter-kit/config"
@@ -20,7 +20,7 @@ type AuthHandler struct {
 	c  *config.Configuration
 }
 
-// AuthRouter
+// AuthRouter doc
 func AuthRouter(au auth.AuthService, c *config.Configuration, router *mux.Router) {
 
 	authHandler := &AuthHandler{au, c}
@@ -30,9 +30,18 @@ func AuthRouter(au auth.AuthService, c *config.Configuration, router *mux.Router
 
 }
 
-// Create
+// Create godoc
+// @Summary Register user
+// @Description Register user api if not exists
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Param   payload     body    signupReq     true        "User Data"
+// @Success 200 {object} basicResponse
+// @Success 200 {object} errorRes
+// @Router /auth/register [post]
 func (h *AuthHandler) Create(w http.ResponseWriter, r *http.Request) {
-	requestUser := new(model.User)
+	requestUser := new(models.User)
 	defer r.Body.Close()
 	decoder := json.NewDecoder(r.Body)
 	decoder.Decode(&requestUser)
@@ -60,17 +69,26 @@ func (h *AuthHandler) Create(w http.ResponseWriter, r *http.Request) {
 	utility.Response(w, result)
 }
 
+// Login godoc
+// @Summary Login user
+// @Description Login user api with email and password
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Param   payload     body    models.Credential     true        "User Data"
+// @Success 200 {object} loginRes
+// @Success 200 {object} errorRes
+// @Router /auth/login [post]
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
-	credentials := new(model.Credential)
+	credentials := new(models.Credential)
 	defer r.Body.Close()
 	decoder := json.NewDecoder(r.Body)
 	decoder.Decode(&credentials)
 
 	user, err := h.au.Login(r.Context(), credentials)
-	result := make(map[string]interface{})
 	if err != nil || user == nil {
 		log.Println(err)
-		result = utility.NewHTTPError(utility.Unauthorized, http.StatusBadRequest)
+		result := utility.NewHTTPError(utility.Unauthorized, http.StatusBadRequest)
 		utility.Response(w, result)
 		return
 	}
@@ -78,12 +96,14 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	tokenMap, err := j.CreateToken(user.ID.Hex(), user.Role)
 	if err != nil {
 		log.Println(err)
-		result = utility.NewHTTPError(utility.InternalError, 501)
+		result := utility.NewHTTPError(utility.InternalError, 501)
 		utility.Response(w, result)
 		return
 	}
 
-	result["token"] = tokenMap["token"]
-	result["user"] = user
-	utility.Response(w, result)
+	res := &loginRes{
+		Token: tokenMap["token"],
+		User:  user,
+	}
+	utility.Response(w, res)
 }
