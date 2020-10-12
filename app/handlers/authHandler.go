@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"golang-mongodb-restful-starter-kit/app/models"
 	"golang-mongodb-restful-starter-kit/app/services/auth"
 	"golang-mongodb-restful-starter-kit/app/services/jwt"
@@ -41,13 +40,13 @@ func AuthRouter(au auth.AuthService, c *config.Configuration, router *mux.Router
 // @Success 200 {object} errorRes
 // @Router /auth/register [post]
 func (h *AuthHandler) Create(w http.ResponseWriter, r *http.Request) {
-	requestUser := new(models.User)
+	payload := new(signupReq)
 	defer r.Body.Close()
 	decoder := json.NewDecoder(r.Body)
-	decoder.Decode(&requestUser)
+	decoder.Decode(&payload)
+	requestUser := &models.User{Name: payload.Name, Email: payload.Email, Password: payload.Password}
 	result := make(map[string]interface{})
 	if validateError := requestUser.Validate(); validateError != nil {
-		fmt.Println(validateError)
 		result = utility.NewHTTPCustomError(utility.BadRequest, validateError.Error(), http.StatusBadRequest)
 		utility.Response(w, result)
 		return
