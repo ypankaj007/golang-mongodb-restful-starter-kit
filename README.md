@@ -83,6 +83,9 @@ Project uses a number of open source projects to work properly:
 * [Kubernetes] - Automating deployment, scaling, and management of containerized applications
 
 
+API endpoint - http://localhost:8080
+Swagger endpoint - http://localhost:8080/swagger/index.html
+
 
    [mux]: <https://www.gorillatoolkit.org/pkg/mux>
    [Go]: <https://golang.org/>
