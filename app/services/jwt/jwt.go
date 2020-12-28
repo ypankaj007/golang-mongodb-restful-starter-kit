@@ -65,7 +65,7 @@ func (jt *JwtToken) ProtectedEndpoint(h http.Handler) http.Handler {
 			token, err := jwt.ParseWithClaims(tokenString, &t, func(token *jwt.Token) (interface{}, error) {
 				return []byte(jt.C.JwtSecret), nil
 			})
-			if !token.Valid || err != nil {
+			if err != nil || !token.Valid {
 				utility.Response(w, utility.NewHTTPError(utility.Unauthorized, http.StatusUnauthorized))
 			} else {
 
