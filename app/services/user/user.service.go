@@ -13,6 +13,11 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+type UserService interface {
+	Update(context.Context, string, *model.UserUpdate) error
+	Get(context.Context, string) (*model.User, error)
+}
+
 // UserServiceImp , implements UserService
 // and perform user related business logics
 type UserServiceImp struct {

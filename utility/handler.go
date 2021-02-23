@@ -29,3 +29,15 @@ func ReadBody(r *http.Request, data interface{}) (interface{}, error) {
 	err := decoder.Decode(&data)
 	return data, err
 }
+
+func SuccessPayload(data interface{}, message string, args ...int) map[string]interface{} {
+	result := make(map[string]interface{})
+	result["data"] = data
+	result["message"] = message
+	if len(args) == 0 {
+		result["code"] = 200
+	} else {
+		result["code"] = args[0]
+	}
+	return result
+}

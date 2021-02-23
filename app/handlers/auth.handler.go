@@ -63,7 +63,8 @@ func (h *AuthHandler) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		result = utility.NewHTTPError(utility.EntityCreationError, http.StatusBadRequest)
 	} else {
-		result["message"] = "Successfully Registered"
+
+		result = utility.SuccessPayload(nil, "Successfully registered", 201)
 	}
 	utility.Response(w, result)
 }
@@ -104,5 +105,6 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		Token: tokenMap["token"],
 		User:  user,
 	}
-	utility.Response(w, res)
+	result := utility.SuccessPayload(res, "Successfully loggedIn")
+	utility.Response(w, result)
 }

@@ -41,7 +41,7 @@ func (h *UserHandler) Get(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		utility.Response(w, utility.NewHTTPError(utility.InternalError, 500))
 	} else {
-		utility.Response(w, user)
+		utility.Response(w, utility.SuccessPayload(user, ""))
 	}
 }
 
@@ -69,7 +69,7 @@ func (h *UserHandler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result["message"] = "Successfully updated"
+	result = utility.SuccessPayload(nil, "Successfully updated")
 	utility.Response(w, result)
 
 }

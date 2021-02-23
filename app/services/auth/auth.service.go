@@ -12,6 +12,12 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+type AuthService interface {
+	Create(context.Context, *model.User) error
+	Login(context.Context, *model.Credential) (*model.User, error)
+	IsUserAlreadyExists(context.Context, string) bool
+}
+
 type AuthServiceImp struct {
 	db         *mgo.Session
 	repository repository.UserRepository
