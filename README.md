@@ -14,33 +14,41 @@ golang-mongodb-restful-starter-kit is a golang restful api starter kit using mon
   
 ### Project structure
 ```bash
-├── app                       //  Contains API related files
-│   ├── handlers              //  Contains HTTP handler functions
-│   │   ├── authHandler.go    // Contains Auth related HTTP handler
-│   │   ├── base.go
-│   │   └── userHandler.go     // Contains User related HTTP handler
-│   ├── models                 // Models contains  data models of the application 
-│   │   └── user.go           //  User model
-│   ├── repositories          // Repositories
+.
+├── README.md
+├── app
+│   ├── handlers                  // API controllers / handlers
+│   │   ├── auth.handler.go
+│   │   ├── model.handler.go
+│   │   └── user.handler.go
+│   ├── middleware                // API middleware
+│   │   └── cors.go
+│   ├── models                    // DB models
+│   │   └── user.model.go
+│   ├── repositories              // DB repository
 │   │   └── user
-│   │       ├── userRepository.go  // UseRepository Interface
-│   │       └── userRepositoryImp.go   // UserRepository  implementation
-│   └── services               // Services
+│   │       └── user.repository.go  // UseRepository
+│   └── services                    // Services
 │       ├── auth
-│       │   ├── authService.go   // AuthService interface
-│       │   └── authServiceImp.go  // AthService interface implementation
+│       │   └── auth.service.go
 │       ├── jwt
-│       │   └── jwt.go             // JWT related operations
+│       │   └── jwt.go
 │       └── user
-│           ├── userService.go    // UserService interface
-│           └── userServiceImp.go   // UserService interface implementation
+│           └── user.service.go
 ├── config
-│   └── config.go   // Environment configurations, read from .env file
+│   └── config.go                 // Environment configurations, read from .env file
 ├── db
-│   └── mongo.go   // Mongodb Connection and Session
-├── main.go        // Starting  point of the application
-├── .env           // Environment configurations
-└── utility        //  Contains helpers, basic operations, commons operations, errors, validations
+│   └── mongo.go                  // Mongodb Connection and Session
+├── docs                          // Swagger docs
+│   ├── docs.go
+│   ├── swagger.json
+│   └── swagger.yaml
+├── go.mod                      // Go modules
+├── go.sum
+├── main.go
+├── routes      // API routes
+│   └── api.go
+└── utility   //  Contains helpers, basic operations, commons operations, errors, validations                     
     ├── common.go
     ├── errors.go
     ├── handler.go
@@ -57,7 +65,7 @@ Install the dependencies and devDependencies and start the server.
 ```sh
 $ git clone https://github.com/ypankaj007/golang-mongodb-restful-starter-kit.git
 $ cd golang-mongodb-restful-starter-kit
-$ go get
+$ go run main.go
 ```
 #### Building for source
 For production release:

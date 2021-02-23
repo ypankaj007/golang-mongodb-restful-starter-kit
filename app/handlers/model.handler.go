@@ -2,10 +2,6 @@ package handlers
 
 import "golang-mongodb-restful-starter-kit/app/models"
 
-const (
-	BaseRoute = "/api/v1"
-)
-
 type errorRes struct {
 	Error    string `json:"error"`
 	Code     int    `json:"code"`

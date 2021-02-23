@@ -9,24 +9,19 @@ import (
 	"golang-mongodb-restful-starter-kit/utility"
 	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 // AuthHandler ..
 type AuthHandler struct {
-	au auth.AuthService
+	au auth.AuthServiceInterface
 	c  *config.Configuration
 }
 
-// AuthRouter doc
-func AuthRouter(au auth.AuthService, c *config.Configuration, router *mux.Router) {
-
-	authHandler := &AuthHandler{au, c}
-	// ------------------------- Auth APIs ------------------------------
-	router.HandleFunc(BaseRoute+"/auth/register", authHandler.Create).Methods(http.MethodPost)
-	router.HandleFunc(BaseRoute+"/auth/login", authHandler.Login).Methods(http.MethodPost)
-
+func NewAuthAPI(authSrv auth.AuthServiceInterface, conf *config.Configuration) *AuthHandler {
+	return &AuthHandler{
+		au: authSrv,
+		c:  conf,
+	}
 }
 
 // Create godoc
@@ -63,7 +58,8 @@ func (h *AuthHandler) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		result = utility.NewHTTPError(utility.EntityCreationError, http.StatusBadRequest)
 	} else {
-		result["message"] = "Successfully Registered"
+
+		result = utility.SuccessPayload(nil, "Successfully registered", 201)
 	}
 	utility.Response(w, result)
 }
@@ -104,5 +100,6 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		Token: tokenMap["token"],
 		User:  user,
 	}
-	utility.Response(w, res)
+	result := utility.SuccessPayload(res, "Successfully loggedIn")
+	utility.Response(w, result)
 }
