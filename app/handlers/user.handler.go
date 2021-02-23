@@ -3,26 +3,20 @@ package handlers
 import (
 	"encoding/json"
 	"golang-mongodb-restful-starter-kit/app/models"
-	"golang-mongodb-restful-starter-kit/app/services/user"
+	userSrv "golang-mongodb-restful-starter-kit/app/services/user"
 	"golang-mongodb-restful-starter-kit/utility"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 // UserHandler - handles user request
 type UserHandler struct {
-	us user.UserService
+	us userSrv.UserServiceInterface
 }
 
-// UserRouter godoc
-func UserRouter(us user.UserService, router *mux.Router) {
-	userHandler := &UserHandler{us}
-
-	// -------------------------- User APIs ------------------------------------
-	router.HandleFunc(BaseRoute+"/users/me", userHandler.Get).Methods(http.MethodGet)
-	router.HandleFunc(BaseRoute+"/users", userHandler.Update).Methods(http.MethodPut)
-
+func NewUserAPI(userService userSrv.UserServiceInterface) *UserHandler {
+	return &UserHandler{
+		us: userService,
+	}
 }
 
 // Get godoc

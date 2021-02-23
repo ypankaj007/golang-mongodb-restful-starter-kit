@@ -9,24 +9,19 @@ import (
 	"golang-mongodb-restful-starter-kit/utility"
 	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 // AuthHandler ..
 type AuthHandler struct {
-	au auth.AuthService
+	au auth.AuthServiceInterface
 	c  *config.Configuration
 }
 
-// AuthRouter doc
-func AuthRouter(au auth.AuthService, c *config.Configuration, router *mux.Router) {
-
-	authHandler := &AuthHandler{au, c}
-	// ------------------------- Auth APIs ------------------------------
-	router.HandleFunc(BaseRoute+"/auth/register", authHandler.Create).Methods(http.MethodPost)
-	router.HandleFunc(BaseRoute+"/auth/login", authHandler.Login).Methods(http.MethodPost)
-
+func NewAuthAPI(authSrv auth.AuthServiceInterface, conf *config.Configuration) *AuthHandler {
+	return &AuthHandler{
+		au: authSrv,
+		c:  conf,
+	}
 }
 
 // Create godoc
